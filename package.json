@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "install": "npm install tailwindcss@latest @tailwindcss/cli@latest daisyui@latest --save-dev",
+    "build:css": "npx @tailwindcss/cli -i ./static/input.css -o ./static/output.min.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "daisyui": "^5.5.16",
+    "tailwindcss": "^4.1.18"
+  }
+}

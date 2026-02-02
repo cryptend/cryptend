@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96% 0.001 286.375);
+  --color-base-300: oklch(92% 0.004 286.32);
+  --color-base-content: oklch(0% 0 0);
+  --color-primary: oklch(51% 0.262 276.966);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(87% 0.065 274.039);
+  --color-secondary-content: oklch(0% 0 0);
+  --color-accent: oklch(55% 0.288 302.321);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(37% 0.013 285.805);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: oklch(71% 0.143 215.221);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(69% 0.17 162.48);
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(79% 0.184 86.047);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(21% 0.006 285.885);
+  --color-base-200: oklch(29% 0.006 286.033);
+  --color-base-300: oklch(33% 0.013 285.805);
+  --color-base-content: oklch(100% 0 0);
+  --color-primary: oklch(51% 0.262 276.966);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(37% 0.034 259.733);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(55% 0.288 302.321);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(87% 0.006 286.286);
+  --color-neutral-content: oklch(0% 0 0);
+  --color-info: oklch(71% 0.143 215.221);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(69% 0.17 162.48);
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(79% 0.184 86.047);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+.input, .textarea {
+  @apply w-full placeholder-base-content/60;
+}
+.input:is(:disabled, [disabled]), .textarea:is(:disabled, [disabled]) {
+  @apply text-base-content bg-base-200/50 border-transparent;
+}
+.label {
+  @apply text-base-content;
+}
+.form-label {
+  @apply text-base-content text-sm;
+}
+.btn-toggle {
+  @apply link no-underline text-base-content/50 text-sm hover:text-base-content;
+}
+.card {
+  @apply bg-base-100 border border-base-200 hover:bg-base-200/50 active:bg-base-200/60;
+  @apply hover:border-base-300 active:border-base-200;
+  @apply shadow-xs hover:shadow-md active:shadow-xs;
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 0.2s;
+}
+.card:focus-visible {
+  @apply outline-solid outline-base-content outline-2 outline-offset-2;
+}
+.link {
+  @apply link-hover;
+}
+.tabs {
+  @apply tabs-border;
+}
+.checkbox {
+  @apply checkbox-sm;
+}
+.radio {
+  @apply radio-sm;
+}
+svg {
+  @apply fill-current;
+}

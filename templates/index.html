@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ request.host }}</title>
+	<link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+	<link rel="stylesheet" href="/static/output.min.css">
+</head>
+<body>
+{% if tab != 'chat' %}
+<div class="tabs justify-center px-2 mt-0.5 mb-6">
+	<a href="/" class="tab{% if tab == 'chats' %} tab-active{% endif %}">Chats</a>
+	<a href="/1" class="tab{% if tab == 'generate_keys' %} tab-active{% endif %}">Generate keys</a>
+	<a href="/2" class="tab{% if tab == 'create_chat' %} tab-active{% endif %}">Create chat</a>
+</div>
+{% endif %}
+{% if tab == 'chats' %}
+<div class="max-w-sm mx-auto px-2 mb-10">
+	{% for name, number in chats %}
+	<a href="/{{ name }}" class="card mb-1.5 overflow-hidden">
+		<div class="card-body">
+			<h2 class="card-title">{{ name }}</h2>
+			<p class="text-sm text-base-content/50">
+				{{ number }} {% if number == 1 %}message{% else %}messages{% endif %}
+			</p>
+		</div>
+	</a>
+	{% endfor %}
+</div>
+{% elif tab == 'generate_keys' %}
+<div class="max-w-md mx-auto px-2">
+	<div class="flex justify-between mb-1">
+		<div class="form-label">Private key</div>
+		<button id="privateKeyToggle" class="btn-toggle">show</button>
+	</div>
+	<input type="password" id="privateKey" value="{{ private_key }}" class="input" disabled>
+	<button id="copyPrivateKey" class="btn mt-2 mb-4">Copy private key</button>
+	<div class="form-label mb-1">Public key</div>
+	<input type="text" id="publicKey" value="{{ public_key }}" class="input" disabled>
+	<button id="copyPublicKey" class="btn mt-2">Copy public key</button>
+</div>
+{% elif tab == 'create_chat' %}
+<form method="post" class="max-w-md mx-auto px-2">
+	<div class="form-label mb-1">Peer public key</div>
+	<input type="text" name="peer_public_key" class="input" autocomplete="off" required>
+	<button class="btn btn-primary mt-4">Create chat</button>
+</form>
+{% elif tab == 'chat' %}
+<div class="max-w-2xl mx-auto mb-10">
+	<div class="bg-base-100/90 backdrop-blur-sm sticky top-0 z-20">
+		<div class="flex justify-between items-center gap-2 py-1 px-2">
+			<div class="flex items-center gap-1.5">
+				<a href="/" class="btn btn-ghost btn-circle">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -960 960 960">
+						<path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+					</svg>
+				</a>
+				<a href="/{{ name }}" class="link text-sm">{{ name }}</a>
+			</div>
+			<button class="btn" onclick="encrypt_decrypt_modal.showModal()">Encrypt / Decrypt</button>
+		</div>
+	</div>
+	<div class="px-2 mt-2">
+		{% for msg in messages %}
+		<div class="chat {% if msg.is_my_message %}chat-end{% else %}chat-start{% endif %}
+			{% if msg.is_encrypted %} break-all{% endif %}"
+		>
+			<div class="chat-bubble{% if msg.is_my_message %} chat-bubble-secondary{% endif %}">
+				{{ msg.text }}
+			</div>
+			<div class="chat-footer text-base-content/50 {% if msg.is_encrypted %}break-all{% else %}
+				hover:text-base-content/80{% endif %}"
+			>
+				{% if msg.is_encrypted %}
+				{{ msg.created_at }}
+				{% else %}
+				<div class="created-at tooltip {% if msg.is_my_message %}tooltip-left{% else %}
+					tooltip-right{% endif %}"
+				>
+					{{ msg.created_at }}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+<dialog id="encrypt_decrypt_modal" class="modal"{% if encrypted %} open{% endif %}>
+	<form method="post" class="modal-box max-w-lg">
+		<div class="flex justify-between mb-1">
+			<div class="form-label">Private key</div>
+			<button type="button" id="privateKeyToggle" class="btn-toggle">show</button>
+		</div>
+		<input type="password" id="privateKey" name="private_key" value="{{ private_key }}"
+			class="input" required
+		>
+		<div class="mt-2 mb-4 text-sm">
+			<label class="label">
+				<input type="checkbox" name="return_private_key" class="checkbox"
+					{% if private_key %} checked{% endif %}
+				>Return private key
+			</label>
+		</div>
+		<div class="form-label mb-1">New message (optional)</div>
+		<textarea name="message" class="textarea" spellcheck="false"></textarea>
+		<div class="mt-2 text-sm">
+			<label class="label">
+				<input type="radio" name="operation" value="encrypt" class="radio" checked>
+				Encrypt message
+			</label>
+		</div>
+		<div class="mt-0.5 text-sm">
+			<label class="label">
+				<input type="radio" name="operation" value="decrypt" class="radio">
+				Decrypt message
+			</label>
+		</div>
+		<button class="btn btn-primary mt-4">Submit</button>
+		{% if encrypted %}
+		<div class="form-label mt-4 mb-1">Encrypted message</div>
+		<textarea id="encrypted" class="textarea break-all" disabled>{{ encrypted }}</textarea>
+		<button type="button" id="copyEncrypted" class="btn mt-2">Copy encrypted message</button>
+		{% endif %}
+	</form>
+	<form method="dialog" class="modal-backdrop"><button></button></form>
+</dialog>
+{% endif %}
+<script src="/static/main.js"></script>
+</body>
+</html>
